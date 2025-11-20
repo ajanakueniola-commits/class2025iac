@@ -19,7 +19,7 @@ resource "aws_instance" "nginx-node" {
   instance_type          = "t3.micro"
   subnet_id              = "subnet-07c33c12d2fe680e4"
   vpc_security_group_ids = ["sg-02182a0158d86e8a6"]
-  key_name               = "mercy123"
+  key_name               = "xxxxxxxx"
 
   tags = {
     Name = "terraform-nginx-node"
@@ -31,7 +31,7 @@ resource "aws_instance" "java-node" {
   instance_type          = "t3.micro"
   subnet_id              = "subnet-07c33c12d2fe680e4"
   vpc_security_group_ids = ["sg-02182a0158d86e8a6"]
-  key_name               = "mercy123"
+  key_name               = "xxxxxxxx"
 
   tags = {
     Name = "terraform-java-node"
@@ -44,7 +44,7 @@ resource "aws_instance" "python-node" {
   instance_type          = "t3.micro"
   subnet_id              = "subnet-07c33c12d2fe680e4"
   vpc_security_group_ids = ["sg-02182a0158d86e8a6"]
-  key_name               = "mercy123"
+  key_name               = "xxxxxxxxxxxx"
 
   tags = {
     Name = "terraform-python-node"
