@@ -15,13 +15,38 @@ provider "aws" {
 
 
 resource "aws_instance" "nginx-node" {
-  ami                    = "ami-038494630aa32ef56"
+  ami                    = "ami-04b0f804b92257917"
   instance_type          = "t3.micro"
-  subnet_id              = "subnet-060ba13bd6800a0db"
-  vpc_security_group_ids = ["sg-090804d4ff518079d"]
-  key_name               = "MasterClass2025"
+  subnet_id              = "subnet-07c33c12d2fe680e4"
+  vpc_security_group_ids = ["sg-02182a0158d86e8a6"]
+  key_name               = "mercy123"
 
   tags = {
     Name = "terraform-nginx-node"
+  }
+}
+
+resource "aws_instance" "java-node" {
+  ami                    = "ami-0f772da681fe60799"
+  instance_type          = "t3.micro"
+  subnet_id              = "subnet-07c33c12d2fe680e4"
+  vpc_security_group_ids = ["sg-02182a0158d86e8a6"]
+  key_name               = "mercy123"
+
+  tags = {
+    Name = "terraform-java-node"
+  }
+}
+
+
+resource "aws_instance" "python-node" {
+  ami                    = "ami-0d89bf3a575c72b02"
+  instance_type          = "t3.micro"
+  subnet_id              = "subnet-07c33c12d2fe680e4"
+  vpc_security_group_ids = ["sg-02182a0158d86e8a6"]
+  key_name               = "mercy123"
+
+  tags = {
+    Name = "terraform-python-node"
   }
 }
