@@ -15,10 +15,10 @@ packer {
 #-----------------------------
 
 source "amazon-ebs" "nginx-git" {
-    region = "eu-west-1"
-    instance_type = "t3.micro"
+    region = "us-east-2"
+    instance_type = "c7i-flex.large"
     ssh_username = "ec2-user"
-    source_ami  = "ami-08b6a2983df6e9e25"
+    source_ami  = "ami-025ca978d4c1d9825"
     ami_name = "nginx-git-by-packer-v2"
     ami_virtualization_type  = "hvm"
 }
@@ -29,10 +29,10 @@ source "amazon-ebs" "nginx-git" {
 #-----------------------------
 
 source "amazon-ebs" "java-git" {
-    region = "eu-west-1"
-    instance_type = "t3.micro"
+    region = "us-east-2"
+    instance_type = "c7i-flex.large"
     ssh_username = "ec2-user"
-    source_ami  = "ami-08b6a2983df6e9e25"
+    source_ami  = "ami-025ca978d4c1d9825"
     ami_name = "java-git-by-packer-v2"
     ami_virtualization_type  = "hvm"
 }
@@ -42,10 +42,10 @@ source "amazon-ebs" "java-git" {
 #-----------------------------
 
 source "amazon-ebs" "python-git" {
-    region = "eu-west-1"
-    instance_type = "t3.micro"
+    region = "us-east-2"
+    instance_type = "c7i-flex.large"
     ssh_username = "ec2-user"
-    source_ami  = "ami-08b6a2983df6e9e25"
+    source_ami  = "ami-025ca978d4c1d9825"
     ami_name = "python-git-by-packer-v2"
     ami_virtualization_type  = "hvm"
 }
