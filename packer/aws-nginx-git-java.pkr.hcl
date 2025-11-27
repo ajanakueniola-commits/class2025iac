@@ -88,7 +88,7 @@ build  {
         inline = [
             "sudo yum update -y",
             "sudo yum install java-17-amazon-corretto -y",
-            "sudo yum install git -y"
+            "sudo yum install git -y",
              "sudo yum update -y",
             "sudo yum install python3 -y",
             "sudo yum install git -y"
