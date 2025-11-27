@@ -15,11 +15,11 @@ provider "aws" {
 
 
 resource "aws_instance" "nginx-node" {
-  ami                    = "ami-0d3cb1f013c0c2034"
-  instance_type          = "t3.micro"
-  subnet_id              = "subnet-07c33c12d2fe680e4"
-  vpc_security_group_ids = ["sg-02182a0158d86e8a6"]
-  key_name               = "xxxxxxxx"
+  ami                    = "ami-0fc5e0bb86da78304"
+  instance_type          = "c7i-flex.large"
+  subnet_id              = "subnet-05321b19c9d5946ea"
+  vpc_security_group_ids = ["sg-09d236d4e61ec5a23"]
+  key_name               = "ohio123"
 
   tags = {
     Name = "terraform-nginx-node"
@@ -27,11 +27,11 @@ resource "aws_instance" "nginx-node" {
 }
 
 resource "aws_instance" "java-node" {
-  ami                    = "ami-09ba8827ec37eb0ac"
-  instance_type          = "t3.micro"
-  subnet_id              = "subnet-07c33c12d2fe680e4"
-  vpc_security_group_ids = ["sg-02182a0158d86e8a6"]
-  key_name               = "xxxxxxxx"
+  ami                    = "ami-0433c3cc52cc22db0"
+  instance_type          = "c7i-flex.large"
+  subnet_id              = "subnet-05321b19c9d5946ea"
+  vpc_security_group_ids = ["sg-09d236d4e61ec5a23"]
+  key_name               = "ohio123"
 
   tags = {
     Name = "terraform-java-node"
@@ -40,11 +40,11 @@ resource "aws_instance" "java-node" {
 
 
 resource "aws_instance" "python-node" {
-  ami                    = "ami-09893a1e1ad4ef2f9"
-  instance_type          = "t3.micro"
-  subnet_id              = "subnet-07c33c12d2fe680e4"
-  vpc_security_group_ids = ["sg-02182a0158d86e8a6"]
-  key_name               = "xxxxxxxxxxxx"
+  ami                    = "ami-0da65d921c0beda88"
+  instance_type          = "c7i-flex.large"
+  subnet_id              = "subnet-05321b19c9d5946ea"
+  vpc_security_group_ids = ["sg-09d236d4e61ec5a23"]
+  key_name               = "ohio123"
 
   tags = {
     Name = "terraform-python-node"
