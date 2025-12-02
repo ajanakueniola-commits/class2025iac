@@ -4,7 +4,7 @@ pipeline {
 
     parameters {
         choice (
-            name: 'TF_ACTION',
+            name: 'PK_ACTION',
             choices :['plan','apply', 'destroy'],
             description: 'Select which Terraform action to run'
         )
@@ -14,7 +14,7 @@ pipeline {
         
         AWS_SECRET_ACCESS_KEY = credentials ('aws-secret-access-key')
         AWS_ACCESS_KEY_ID = credentials ('aws-access-key-id')
-        AWS_DEFAULT_REGION = 'eu-west-1'
+        AWS_DEFAULT_REGION = 'us-east-2'
     }
     
     stages {
@@ -23,51 +23,40 @@ pipeline {
                 checkout scm
             }
         }
-        stage ('terraform init') {
+        stage ('packer init .') {
             steps {
-                dir ('terraform') {
-                    sh ' terraform init -reconfigure'
+                dir ('packer') {
+                    sh ' packer init . -reconfigure'
                 }
             }
         }
 
-        stage ('terraform validate') {
+        stage ('packer validate .') {
             steps {
-                dir ('terraform') {
-                    sh ' terraform validate'
-                }
-            }
-        } 
-        
-        stage ('terraform plan') {
-            when  {
-                expression { params.TF_ACTION == 'plan'}
-            }
-            steps {
-                dir ('terraform') {
-                    sh ' terraform plan'
+                dir ('packer') {
+                    sh ' packer validate .'
                 }
             }
         } 
 
-        stage ('terraform apply') {
+        stage ('packer build .') {
          when  {
-                expression { params.TF_ACTION == 'apply'}
+                expression { params.PK_ACTION == 'build .'}
             }
             steps {
-                dir ('terraform') {
-                    sh ' terraform apply -auto-approve'
+                dir ('packer') {
+                    sh ' packer build . -auto-approve'
                 }
             }
         } 
 
-        stage ('terraform destroy') {
+        stage ('packer destroy .') {
          when  {
-                expression { params.TF_ACTION == 'destroy'}
+                expression { params.PK_ACTION == 'destroy .'}
             }
             steps {
-                dir ('terraform') {
-                    sh ' terraform destroy -auto-approve'
+                dir ('packer') {
+                    sh ' packer destroy -auto-approve'
                 }
             }
         } 
