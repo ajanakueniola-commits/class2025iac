@@ -1,14 +1,5 @@
 pipeline {
     agent any 
-
-
-    parameters {
-        choice (
-            name: 'PK_ACTION',
-            choices :['plan','apply', 'destroy'],
-            description: 'Select which Terraform action to run'
-        )
-    }
     
     environment {
         
@@ -40,23 +31,9 @@ pipeline {
         } 
 
         stage ('packer build .') {
-         when  {
-                expression { params.PK_ACTION == 'build .'}
-            }
             steps {
                 dir ('packer') {
                     sh ' packer build . -auto-approve'
-                }
-            }
-        } 
-
-        stage ('packer destroy .') {
-         when  {
-                expression { params.PK_ACTION == 'destroy .'}
-            }
-            steps {
-                dir ('packer') {
-                    sh ' packer destroy -auto-approve'
                 }
             }
         } 
