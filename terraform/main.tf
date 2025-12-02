@@ -190,7 +190,7 @@ resource "aws_security_group" "python_sg" {
 # ------------------------
 
 resource "aws_instance" "python-node" {
-  ami                    = "aami-031be55cfb8a142a3"
+  ami                    = "ami-031be55cfb8a142a3"
   instance_type          = "c7i-flex.large"
   subnet_id              = "subnet-05321b19c9d5946ea"
   vpc_security_group_ids = [aws_security_group.python_sg.id]
