@@ -1,4 +1,11 @@
 terraform {
+  backend "s3" {
+    bucket  = "funmi-cicd-state-bucket"
+    key     = "envs/dev/terraform.tfstate"
+    region  = "us-east-2"
+    encrypt = true
+
+  }
   required_version = ">= 1.6.0"
 
   required_providers {
@@ -13,24 +20,120 @@ provider "aws" {
   region = "us-east-2"
 }
 
+# -------------------------
+# Web Node Security Group
+# -------------------------
 
-resource "aws_instance" "nginx-node" {
+resource "aws_security_group" "web_sg" {
+
+  name        = "web-sg"
+  description = "Allow SSH and Port 80  inbound, all outbound"
+  vpc_id      = "vpc-0cda215927b58205a"
+
+
+  # inbound SSH
+
+  ingress {
+    description = "SSH"
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  # inbound 80 (web)
+  ingress {
+    description = "Web port 80"
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  # Allow all outbound traffic
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = {
+    Name = "web-security_group"
+  }
+
+}
+
+#-------------------------
+# Web EC2 Instance
+# ------------------------
+
+
+resource "aws_instance" "web-node" {
   ami                    = "ami-0911b851aa587d484"
   instance_type          = "c7i-flex.large"
   subnet_id              = "subnet-05321b19c9d5946ea"
-  vpc_security_group_ids = ["sg-09d236d4e61ec5a23"]
+  vpc_security_group_ids = [aws_security_group.web_sg.id]
   key_name               = "ohio123"
 
   tags = {
-    Name = "terraform-nginx-node"
+    Name = "terraform-web-node"
   }
 }
+
+# -------------------------
+# Java Node Security Group
+# -------------------------
+
+resource "aws_security_group" "java_sg" {
+
+  name        = "java-sg"
+  description = "Allow SSH and Port 9090  inbound, all outbound"
+  vpc_id      = "vpc-0cda215927b58205a"
+
+
+  # inbound SSH
+
+  ingress {
+    description = "SSH"
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  # inbound 9090 (java)
+  ingress {
+    description = "java app port 9090"
+    from_port   = 9090
+    to_port     = 9090
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  # Allow all outbound traffic
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = {
+    Name = "java-app-security_group"
+  }
+
+}
+
+#-------------------------
+# java EC2 Instance
+# ------------------------
 
 resource "aws_instance" "java-node" {
   ami                    = "ami-09e135f9b497eb5f4"
   instance_type          = "c7i-flex.large"
   subnet_id              = "subnet-05321b19c9d5946ea"
-  vpc_security_group_ids = ["sg-0ccabcb016706b9d9"]
+  vpc_security_group_ids = [aws_security_group.java_sg.id]
   key_name               = "ohio123"
 
   tags = {
@@ -38,15 +141,84 @@ resource "aws_instance" "java-node" {
   }
 }
 
+# -------------------------
+# Python Node Security Group
+# -------------------------
+
+resource "aws_security_group" "python_sg" {
+
+  name        = "python-sg"
+  description = "Allow SSH and Port 8080  inbound, all outbound"
+  vpc_id      = "vpc-0cda215927b58205a"
+
+
+  # inbound SSH
+
+  ingress {
+    description = "SSH"
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  # inbound 80 (web)
+  ingress {
+    description = "Python app port 8080"
+    from_port   = 8080
+    to_port     = 8080
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  # Allow all outbound traffic
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = {
+    Name = "python-app-security_group"
+  }
+
+}
+
+#-------------------------
+# Python EC2 Instance
+# ------------------------
 
 resource "aws_instance" "python-node" {
   ami                    = "ami-034533e91587906ce"
   instance_type          = "c7i-flex.large"
   subnet_id              = "subnet-05321b19c9d5946ea"
-  vpc_security_group_ids = ["sg-0942d9102d79e3c75"]
+  vpc_security_group_ids = [aws_security_group.python_sg.id]
   key_name               = "ohio123"
 
   tags = {
     Name = "terraform-python-node"
   }
 }
+
+#--------------------------------
+# Outputs - Public (external) IPs
+#--------------------------------
+
+
+output "web_node_ip" {
+  description = " Public IP"
+  value  = aws_instance.web-node.public_ip
+}
+
+output "python_node_ip" {
+  description = " Public IP"
+  value  = aws_instance.python-node.public_ip
+}
+
+output "java_node_ip" {
+  description = " Public IP"
+  value  = aws_instance.java-node.public_ip
+}
+
+
