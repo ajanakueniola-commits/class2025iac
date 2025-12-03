@@ -33,7 +33,16 @@ pipeline {
         stage ('packer build .') {
             steps {
                 dir ('packer') {
-                    sh ' packer build . -on-error=cleanup'
+                    sh ' packer build -on-error=<option> <jenkinsfile-packer>
+                    Where <option> is one of:
+
+                    cleanup
+
+                    abort
+
+                    ask
+
+                    run-cleanup-provisioner
                 }
             }
         } 
