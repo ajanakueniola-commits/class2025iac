@@ -33,16 +33,7 @@ pipeline {
         stage ('packer build .') {
             steps {
                 dir ('packer') {
-                    sh ' packer build -on-error=<option> <template-file>'
-                    Where <option> is one of:
-
-                    cleanup
-
-                    abort
-
-                    ask
-
-                    run-cleanup-provisioner
+                    sh 'packer build -on-error=cleanup aws-nginx-git-java.pkr.hcl'
                 }
             }
         } 
