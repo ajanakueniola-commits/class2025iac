@@ -34,6 +34,7 @@ pipeline {
             steps {
                 dir ('packer') {
                     sh ' packer build . -auto-approve'
+                    sh '   packer build .-on-error=[cleanup|abort|ask|run-cleanup-provisioner]
                 }
             }
         } 
