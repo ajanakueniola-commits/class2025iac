@@ -36,7 +36,8 @@ stages {
                     sh ' packer build . -auto-approve'
                 }
             }
-        } 
+        }
+    }
 }
 
 
