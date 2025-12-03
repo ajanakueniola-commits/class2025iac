@@ -1,10 +1,6 @@
 pipeline {
     agent any 
 
-
-    pipeline {
-    agent any 
-
  environment {
         
         AWS_SECRET_ACCESS_KEY = credentials ('aws-secret-access-key')
