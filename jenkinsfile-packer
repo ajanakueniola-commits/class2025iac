@@ -33,7 +33,7 @@ pipeline {
         stage ('packer build .') {
             steps {
                 dir ('packer') {
-                    sh ' packer build . -on-error=[cleanup|abort|ask|run-cleanup-provisioner]'
+                    sh ' packer build . -on-error=cleanup'
                 }
             }
         } 
