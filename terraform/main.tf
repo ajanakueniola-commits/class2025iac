@@ -1,8 +1,8 @@
 terraform {
   backend "s3" {
-    bucket  = "techbleat-cicd-state-bucket"
+    bucket  = "funmi-cicd-state-bucket"
     key     = "envs/dev/terraform.tfstate"
-    region  = "eu-west-1"
+    region  = "us-east-2"
     encrypt = true
 
   }
@@ -17,7 +17,7 @@ terraform {
 }
 
 provider "aws" {
-  region = "eu-west-1"
+  region = "us-east-2"
 }
 
 # -------------------------
@@ -28,7 +28,7 @@ resource "aws_security_group" "web_sg" {
 
   name        = "web-sg"
   description = "Allow SSH and Port 80  inbound, all outbound"
-  vpc_id      = "vpc-0a1624f291bfb283f"
+  vpc_id      = "vpc-0cda215927b58205a"
 
 
   # inbound SSH
@@ -70,24 +70,26 @@ resource "aws_security_group" "web_sg" {
 
 
 resource "aws_instance" "web-node" {
-  ami                    = "ami-08b6a2983df6e9e25"
-  instance_type          = "t3.micro"
-  subnet_id              = "subnet-060ba13bd6800a0db"
+  ami                    = "ami-06c0db9e3e16318f0"
+  instance_type          = "c7i-flex.large"
+  subnet_id              = "subnet-05321b19c9d5946ea"
   vpc_security_group_ids = [aws_security_group.web_sg.id]
-  key_name               = "MasterClass2025"
+  key_name               = "ohio123"
 
   tags = {
-    Name = "web-node"
+    Name = "terraform-web-node"
   }
 }
 
-# Python backend setup
+# -------------------------
+# Java Node Security Group
+# -------------------------
 
-resource "aws_security_group" "python_sg" {
+resource "aws_security_group" "java_sg" {
 
-  name        = "python-sg"
-  description = "Allow SSH and Port 9000  inbound, all outbound"
-  vpc_id      = "vpc-0a1624f291bfb283f"
+  name        = "java-sg"
+  description = "Allow SSH and Port 9090  inbound, all outbound"
+  vpc_id      = "vpc-0cda215927b58205a"
 
 
   # inbound SSH
@@ -100,11 +102,71 @@ resource "aws_security_group" "python_sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  # inbound 9000 (app)
+  # inbound 9090 (java)
   ingress {
-    description = "Python App port 9000"
-    from_port   = 9000
-    to_port     = 9000
+    description = "java app port 9090"
+    from_port   = 9090
+    to_port     = 9090
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  # Allow all outbound traffic
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  tags = {
+    Name = "java-app-security_group"
+  }
+
+}
+
+#-------------------------
+# java EC2 Instance
+# ------------------------
+
+resource "aws_instance" "java-node" {
+  ami                    = "ami-029d03956bd3e7b93"
+  instance_type          = "c7i-flex.large"
+  subnet_id              = "subnet-05321b19c9d5946ea"
+  vpc_security_group_ids = [aws_security_group.java_sg.id]
+  key_name               = "ohio123"
+
+  tags = {
+    Name = "terraform-java-node"
+  }
+}
+
+# -------------------------
+# Python Node Security Group
+# -------------------------
+
+resource "aws_security_group" "python_sg" {
+
+  name        = "python-sg"
+  description = "Allow SSH and Port 8080  inbound, all outbound"
+  vpc_id      = "vpc-0cda215927b58205a"
+
+
+  # inbound SSH
+
+  ingress {
+    description = "SSH"
+    from_port   = 22
+    to_port     = 22
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+
+  # inbound 80 (web)
+  ingress {
+    description = "Python app port 8080"
+    from_port   = 8080
+    to_port     = 8080
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
@@ -127,19 +189,17 @@ resource "aws_security_group" "python_sg" {
 # Python EC2 Instance
 # ------------------------
 
-
 resource "aws_instance" "python-node" {
-  ami                    = "ami-08b6a2983df6e9e25"
-  instance_type          = "t3.micro"
-  subnet_id              = "subnet-060ba13bd6800a0db"
+  ami                    = "ami-031be55cfb8a142a3"
+  instance_type          = "c7i-flex.large"
+  subnet_id              = "subnet-05321b19c9d5946ea"
   vpc_security_group_ids = [aws_security_group.python_sg.id]
-  key_name               = "MasterClass2025"
+  key_name               = "ohio123"
 
   tags = {
-    Name = "python-node"
+    Name = "terraform-python-node"
   }
 }
-
 
 #--------------------------------
 # Outputs - Public (external) IPs
@@ -154,4 +214,9 @@ output "web_node_ip" {
 output "python_node_ip" {
   description = " Public IP"
   value  = aws_instance.python-node.public_ip
+}
+
+output "java_node_ip" {
+  description = " Public IP"
+  value  = aws_instance.java-node.public_ip
 }
