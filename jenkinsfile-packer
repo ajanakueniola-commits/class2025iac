@@ -33,7 +33,7 @@ pipeline {
         stage ('packer build .') {
             steps {
                 dir ('packer') {
-                    sh ' packer build -on-error=<option> <template-file>
+                    sh ' packer build -on-error=<option> <template-file>'
                     Where <option> is one of:
 
                     cleanup
