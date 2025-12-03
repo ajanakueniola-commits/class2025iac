@@ -17,7 +17,7 @@ stages {
         stage ('packer init .') {
             steps {
                 dir ('packer') {
-                    sh ' packer init . -reconfigure'
+                    sh ' packer init .'
                 }
             }
         }
