@@ -25,10 +25,10 @@ source "amazon-ebs" "nginx-git" {
 
 
 #-----------------------------
-# source: how we build the AMI For Nginx and GIT 
+# source: how we build the AMI For Java and GIT 
 #-----------------------------
 
-source "amazon-ebs" "java-python-git" {
+source "amazon-ebs" "java-git" {
     region = "us-east-2"
     instance_type = "c7i-flex.large"
     ssh_username = "ec2-user"
@@ -72,6 +72,10 @@ build  {
         ]
     }
 
+     post-processor "manifest" {
+        output = "manifest.json"
+    }
+
     post-processor "shell-local" {
         inline = ["echo 'AMI build is finished For Nginx' "]
     }
@@ -81,7 +85,7 @@ build  {
 build  {
     name  = "java-python-git-ami-build"
     sources = [
-        "source.amazon-ebs.java-python-git"
+        "source.amazon-ebs.java-git"
     ]
 
     provisioner "shell" {
@@ -89,10 +93,11 @@ build  {
             "sudo yum update -y",
             "sudo yum install java-17-amazon-corretto -y",
             "sudo yum install git -y",
-             "sudo yum update -y",
-            "sudo yum install python3 -y",
-            "sudo yum install git -y"
         ]
+    }
+
+     post-processor "manifest" {
+        output = "manifest.json"
     }
 
     post-processor "shell-local" {
@@ -116,8 +121,16 @@ build  {
         ]
     }
 
+    post-processor "manifest" {
+        output = "manifest.json"
+    }
+
     post-processor "shell-local" {
-        inline = ["echo 'AMI build is finished For python' "]
+      inline = [
+        "echo 'AMI build is finished for python'"
+  ]
+}
+
     }
 
 }
