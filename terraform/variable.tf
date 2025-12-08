@@ -4,7 +4,7 @@ variable "ami_id" {
 }
 
 variable "ami_id" {
-  description = "MI ID from Packer"
+  description = "AMI ID from Packer"
   type        = string
 }
 
