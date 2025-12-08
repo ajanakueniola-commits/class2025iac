@@ -33,7 +33,7 @@ source "amazon-ebs" "java-python-git" {
     instance_type = "c7i-flex.large"
     ssh_username = "ec2-user"
     source_ami  = "ami-025ca978d4c1d9825"
-    ami_name = "java-python-git-by-packer-v2"
+    ami_name = "java-git-by-packer-v2"
     ami_virtualization_type  = "hvm"
 }
 
