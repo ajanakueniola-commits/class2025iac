@@ -69,7 +69,7 @@ resource "aws_security_group" "web_sg" {
 # ------------------------
 
 
-resource "aws_instance" "web-node" {
+resource "aws_instance" "nginx-node" {
   ami                    = var.ami_id
   instance_type          = var.instance_type
   subnet_id              = "subnet-05321b19c9d5946ea"
@@ -78,7 +78,7 @@ resource "aws_instance" "web-node" {
   availability_zone      = var.az_number1
 
   tags = {
-    Name = "terraform-web-node"
+    Name = "terraform-nginx-node"
   }
 }
 

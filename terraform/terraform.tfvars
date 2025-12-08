@@ -1,6 +1,4 @@
-nginx-ami_id        = "ami-0351c53886b06cdb4"
-java-ami_id        = "ami-01ccc8514d91dbe46"
-python-ami_id        = "ami-0a1f2a48cbfc49fd1"
+ami_id        = var.ami_id
 instance_type = "c7i-flex.large"
 key_name      = "ohio123"
 
