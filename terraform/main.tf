@@ -69,8 +69,8 @@ resource "aws_security_group" "web_sg" {
 # ------------------------
 
 
-resource "aws_instance" "nginx-node" {
-  ami                    = var.nginx-node_ami_id
+resource "aws_instance" "NGINX" {
+  ami                    = var.NGINX_ami_id
   instance_type          = var.instance_type
   subnet_id              = "subnet-05321b19c9d5946ea"
   vpc_security_group_ids = [aws_security_group.web_sg.id]
@@ -130,8 +130,8 @@ resource "aws_security_group" "java_sg" {
 # java EC2 Instance
 # ------------------------
 
-resource "aws_instance" "java-node" {
- ami                    = var.java-node_ami_id
+resource "aws_instance" "JAVAe" {
+ ami                    = var.JAVA_ami_id
   instance_type          = var.instance_type
   subnet_id              = "subnet-05321b19c9d5946ea"
   vpc_security_group_ids = [aws_security_group.web_sg.id]
@@ -191,8 +191,8 @@ resource "aws_security_group" "python_sg" {
 # Python EC2 Instance
 # ------------------------
 
-resource "aws_instance" "python-node" {
-  ami                    = var.python-node_ami_id
+resource "aws_instance" "PYTHON" {
+  ami                    = var.PYTHON_ami_id
   instance_type          = var.instance_type
   subnet_id              = "subnet-05321b19c9d5946ea"
   vpc_security_group_ids = [aws_security_group.web_sg.id]
