@@ -1,4 +1,4 @@
-terraform {
+-terraform {
   backend "s3" {
     bucket  = "funmi-cicd-state-bucket"
     key     = "envs/dev/terraform.tfstate"
@@ -75,7 +75,7 @@ resource "aws_instance" "NGINX" {
   subnet_id              = "subnet-05321b19c9d5946ea"
   vpc_security_group_ids = [aws_security_group.NGINX_sg.id]
   key_name               = var.key_name
-  availability_zone      = var.az_number1
+  availability_zone      = "us-east-2a"
 
   tags = {
     Name = "terraform-nginx-node"
@@ -136,7 +136,7 @@ resource "aws_instance" "JAVA" {
   subnet_id              = "subnet-05321b19c9d5946ea"
   vpc_security_group_ids = [aws_security_group.JAVA_sg.id]
   key_name               = var.key_name
-  availability_zone      = var.az_number2
+  availability_zone      ="us-east-2a"
 
   tags = {
     Name = "terraform-java-node"
@@ -197,7 +197,7 @@ resource "aws_instance" "PYTHON" {
   subnet_id              = "subnet-05321b19c9d5946ea"
   vpc_security_group_ids = [aws_security_group.PYTHON_sg.id]
   key_name               = var.key_name
-  availability_zone      = var.az_number3
+  availability_zone      = "us-east-2a"
   tags = {
     Name = "terraform-python-node"
   }
