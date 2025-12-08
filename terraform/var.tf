@@ -1,6 +1,39 @@
-variable "instance_type" {}
-variable "key_name" {}
-variable "ami" {}
-variable "az_number1" {}
-variable "az_number2" {}
-variable "az_number3" {}
+variable "ami_id" {
+  description = "AMI ID from Packer"
+  type        = string
+}
+
+variable "ami_id" {
+  description = "MI ID from Packer"
+  type        = string
+}
+
+variable "ami_id" {
+  description = "AMI ID from Packer"
+  type        = string
+}
+
+variable "instance_type" {
+  description = "EC2 instance type"
+  type        = string
+}
+
+variable "key_name" {
+  description = "EC2 SSH key name"
+  type        = string
+}
+
+variable "az_number1" {
+  description = "Availability Zone for web-node"
+  type        = string
+}
+
+variable "az_number2" {
+  description = "Availability Zone for java-node"
+  type        = string
+}
+
+variable "az_number3" {
+  description = "Availability Zone for python-node"
+  type        = string
+}
