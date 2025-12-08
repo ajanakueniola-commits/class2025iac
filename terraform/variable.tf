@@ -16,7 +16,6 @@ variable "python_ami_id" {
 variable "instance_type" {
   description = "EC2 instance type"
   type        = string
-  value       = "c7i-flex.large"
 }
 
 variable "key_name" {
