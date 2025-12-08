@@ -73,7 +73,7 @@ resource "aws_instance" "NGINX" {
   ami                    = var.NGINX_ami_id
   instance_type          = var.instance_type
   subnet_id              = "subnet-05321b19c9d5946ea"
-  vpc_security_group_ids = [aws_security_group.web_sg.id]
+  vpc_security_group_ids = [aws_security_group.NGINX_sg.id]
   key_name               = var.key_name
   availability_zone      = var.az_number1
 
@@ -134,7 +134,7 @@ resource "aws_instance" "JAVA" {
  ami                    = var.JAVA_ami_id
   instance_type          = var.instance_type
   subnet_id              = "subnet-05321b19c9d5946ea"
-  vpc_security_group_ids = [aws_security_group.web_sg.id]
+  vpc_security_group_ids = [aws_security_group.JAVA_sg.id]
   key_name               = var.key_name
   availability_zone      = var.az_number2
 
@@ -195,7 +195,7 @@ resource "aws_instance" "PYTHON" {
   ami                    = var.PYTHON_ami_id
   instance_type          = var.instance_type
   subnet_id              = "subnet-05321b19c9d5946ea"
-  vpc_security_group_ids = [aws_security_group.web_sg.id]
+  vpc_security_group_ids = [aws_security_group.PYTHON_sg.id]
   key_name               = var.key_name
   availability_zone      = var.az_number3
   tags = {
@@ -208,17 +208,17 @@ resource "aws_instance" "PYTHON" {
 #--------------------------------
 
 
-output "web_node_ip" {
+output "NGINX_ip" {
   description = " Public IP"
-  value  = aws_instance.web-node.public_ip
+  value  = aws_instance.NGINX-node.public_ip
 }
 
-output "python_node_ip" {
+output "PYTHON_ip" {
   description = " Public IP"
-  value  = aws_instance.python-node.public_ip
+  value  = aws_instance.PYTHON.public_ip
 }
 
-output "java_node_ip" {
+output "JAVAe_ip" {
   description = " Public IP"
-  value  = aws_instance.java-node.public_ip
+  value  = aws_instance.JAVA.public_ip
 }
