@@ -1,4 +1,6 @@
-ami_id        = var.ami_id
+ami           = var.NGINX_ami_id
+ami           = var.JAVA_ami_id
+ami           = var.PYTHON_ami_id
 instance_type = "c7i-flex.large"
 key_name      = "ohio123"
 
