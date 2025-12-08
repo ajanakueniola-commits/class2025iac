@@ -14,13 +14,13 @@ stages {
                 checkout scm
             }
         }
-        stage ('packer init .') {
+        stage('packer init') {
             steps {
-                dir ('packer') {
-                    sh ' packer init . re-configure'
-                }
+            dir('packer') {
+                sh 'packer init main.pkr.hcl'
             }
         }
+    }
 
         stage ('packer validate .') {
             steps {
