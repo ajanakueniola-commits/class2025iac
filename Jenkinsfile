@@ -30,15 +30,24 @@ stages {
             }
         } 
 
-        stage('packer build .') {
-            steps {
-                dir('packer') {
-                    sh ' packer build . '
-                }
+       stage('Packer Build') {
+    steps {
+        dir('packer') {
+            sh 'packer build .'
+
+            // extract AMI ID from manifest.json
+            script {
+                AMI_ID = sh(
+                    script: "jq -r '.builds[0].artifact_id | split(\":\")[1]' manifest.json",
+                    returnStdout: true
+                ).trim()
+
+                echo "Created AMI ID: ${AMI_ID}"
             }
         }
     }
 }
+
 
 
     
