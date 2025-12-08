@@ -24,9 +24,9 @@ provider "aws" {
 # Web Node Security Group
 # -------------------------
 
-resource "aws_security_group" "web_sg" {
+resource "aws_security_group" "NGINX_sg" {
 
-  name        = "web-sg"
+  name        = "NGINX-sg"
   description = "Allow SSH and Port 80  inbound, all outbound"
   vpc_id      = "vpc-0cda215927b58205a"
 
@@ -41,9 +41,9 @@ resource "aws_security_group" "web_sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  # inbound 80 (web)
+  # inbound 80 (NGINX)
   ingress {
-    description = "Web port 80"
+    description = "NGINX port 80"
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
@@ -59,7 +59,7 @@ resource "aws_security_group" "web_sg" {
   }
 
   tags = {
-    Name = "web-security_group"
+    Name = "NGINX-security_group"
   }
 
 }
@@ -86,9 +86,9 @@ resource "aws_instance" "NGINX" {
 # Java Node Security Group
 # -------------------------
 
-resource "aws_security_group" "java_sg" {
+resource "aws_security_group" "JAVA_sg" {
 
-  name        = "java-sg"
+  name        = "JAVA-sg"
   description = "Allow SSH and Port 9090  inbound, all outbound"
   vpc_id      = "vpc-0cda215927b58205a"
 
@@ -103,9 +103,9 @@ resource "aws_security_group" "java_sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  # inbound 9090 (java)
+  # inbound 9090 (JAVA)
   ingress {
-    description = "java app port 9090"
+    description = "JAVA app port 9090"
     from_port   = 9090
     to_port     = 9090
     protocol    = "tcp"
@@ -121,7 +121,7 @@ resource "aws_security_group" "java_sg" {
   }
 
   tags = {
-    Name = "java-app-security_group"
+    Name = "JAVA-app-security_group"
   }
 
 }
@@ -130,7 +130,7 @@ resource "aws_security_group" "java_sg" {
 # java EC2 Instance
 # ------------------------
 
-resource "aws_instance" "JAVAe" {
+resource "aws_instance" "JAVA" {
  ami                    = var.JAVA_ami_id
   instance_type          = var.instance_type
   subnet_id              = "subnet-05321b19c9d5946ea"
@@ -147,9 +147,9 @@ resource "aws_instance" "JAVAe" {
 # Python Node Security Group
 # -------------------------
 
-resource "aws_security_group" "python_sg" {
+resource "aws_security_group" "PYTHON_sg" {
 
-  name        = "python-sg"
+  name        = "PYTHON-sg"
   description = "Allow SSH and Port 8080  inbound, all outbound"
   vpc_id      = "vpc-0cda215927b58205a"
 
@@ -164,9 +164,9 @@ resource "aws_security_group" "python_sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  # inbound 80 (web)
+  # inbound 80 (PYTHON)
   ingress {
-    description = "Python app port 8080"
+    description = "PYTHON app port 8080"
     from_port   = 8080
     to_port     = 8080
     protocol    = "tcp"
@@ -182,7 +182,7 @@ resource "aws_security_group" "python_sg" {
   }
 
   tags = {
-    Name = "python-app-security_group"
+    Name = "PYTHON-app-security_group"
   }
 
 }
