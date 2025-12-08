@@ -1,4 +1,4 @@
--terraform {
+terraform {
   backend "s3" {
     bucket  = "funmi-cicd-state-bucket"
     key     = "envs/dev/terraform.tfstate"
