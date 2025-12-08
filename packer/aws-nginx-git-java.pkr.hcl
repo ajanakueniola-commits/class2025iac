@@ -128,9 +128,7 @@ build  {
     post-processor "shell-local" {
       inline = [
         "echo 'AMI build is finished for python'"
-  ]
-}
-
+      ]
     }
 
 }
