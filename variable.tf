@@ -1,15 +1,15 @@
 variable "ami_id" {
-  description = "NGINX-AMI ID from Packer"
+  description = "AMI ID from Packer"
   type        = string
 }
 
 variable "ami_id" {
-  description = "JAVA-AMI ID from Packer"
+  description = "AMI ID from Packer"
   type        = string
 }
 
 variable "ami_id" {
-  description = "PYTHON-AMI ID from Packer"
+  description = "AMI ID from Packer"
   type        = string
 }
 
