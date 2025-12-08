@@ -25,6 +25,21 @@ pipeline {
             }
         }
 
+     stage('Prepare Terraform Vars') {
+            steps {
+                dir('terraform') {
+                    writeFile file: 'terraform.tfvars', text: """
+                        nginx_ami_id  = "${NGINX_AMI_ID}"
+                        java_ami_id   = "${JAVA_AMI_ID}"
+                        python_ami_id = "${PYTHON_AMI_ID}"
+                    """
+
+                    sh 'cat terraform.tfvars'
+                }
+            }
+        }
+
+
         stage('terraform init') {
             steps {
                 dir('terraform') {
@@ -41,15 +56,7 @@ pipeline {
             }
         }
 
-        stage('Prepare Terraform Vars') {
-            steps {
-                dir('terraform') {
-                    writeFile file: 'terraform.tfvars', text: "ami_id = \"${AMI_ID}\"\n"
-                    sh 'cat terraform.tfvars'
-                }
-            }
-        }
-
+       
         stage('terraform plan') {
             when {
                 expression { params.TF_ACTION == 'plan' }
