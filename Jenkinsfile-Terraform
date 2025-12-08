@@ -29,11 +29,10 @@ pipeline {
             steps {
                 dir('terraform') {
                     writeFile file: 'terraform.tfvars', text: """
-                        nginx_ami_id  = "${NGINX_AMI_ID}"
-                        java_ami_id   = "${JAVA_AMI_ID}"
-                        python_ami_id = "${PYTHON_AMI_ID}"
-                    """
-
+                        nginx_ami_id  = "${env.nginx_AMI_ID}"
+                        java_ami_id   = "${env.java_AMI_ID}"
+                        python_ami_id = "${env.python_AMI_ID}"
+                """
                     sh 'cat terraform.tfvars'
                 }
             }
