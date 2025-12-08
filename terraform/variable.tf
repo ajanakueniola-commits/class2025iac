@@ -1,14 +1,14 @@
-variable "nginx_ami_id" {
+variable "NGINX_ami_id" {
   description = "AMI ID for the Nginx server"
   type        = string
 }
 
-variable "java_ami_id" {
+variable "JAVA_ami_id" {
   description = "AMI ID for the Java server"
   type        = string
 }
 
-variable "python_ami_id" {
+variable "PYTHON_ami_id" {
   description = "AMI ID for the Python server"
   type        = string
 }
