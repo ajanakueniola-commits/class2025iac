@@ -17,7 +17,7 @@ stages {
         stage('packer init') {
             steps {
             dir('packer') {
-                sh 'packer init main.pkr.hcl'
+                sh 'packer init aws-nginx-git-java.pkr.hcl'
             }
         }
     }
