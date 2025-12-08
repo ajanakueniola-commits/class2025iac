@@ -17,7 +17,7 @@ stages {
         stage ('packer init .') {
             steps {
                 dir ('packer') {
-                    sh ' packer init . -reconfigure'
+                    sh ' packer init . '
                 }
             }
         }
@@ -30,10 +30,10 @@ stages {
             }
         } 
 
-        stage ('packer build .') {
+        stage('packer build .') {
             steps {
-                dir ('packer') {
-                    sh ' packer build . -auto-approve'
+                dir('packer') {
+                    sh ' packer build . '
                 }
             }
         }
