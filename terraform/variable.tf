@@ -1,21 +1,22 @@
-variable "ami_id" {
-  description = "AMI ID from Packer"
+variable "nginx_ami_id" {
+  description = "AMI ID for the Nginx server"
   type        = string
 }
 
-variable "ami_id" {
-  description = "AMI ID from Packer"
+variable "java_ami_id" {
+  description = "AMI ID for the Java server"
   type        = string
 }
 
-variable "ami_id" {
-  description = "AMI ID from Packer"
+variable "python_ami_id" {
+  description = "AMI ID for the Python server"
   type        = string
 }
 
 variable "instance_type" {
   description = "EC2 instance type"
   type        = string
+  value       = "c7i-flex.large"
 }
 
 variable "key_name" {
