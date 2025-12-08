@@ -210,7 +210,7 @@ resource "aws_instance" "PYTHON" {
 
 output "NGINX_ip" {
   description = " Public IP"
-  value  = aws_instance.NGINX-node.public_ip
+  value  = aws_instance.NGINX.public_ip
 }
 
 output "PYTHON_ip" {
