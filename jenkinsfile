@@ -33,7 +33,7 @@ stages {
         stage ('packer build .') {
             steps {
                 dir ('packer') {
-                    sh ' packer build . -auto-approve'
+                    sh ' packer build .'
                 }
             }
         } 
