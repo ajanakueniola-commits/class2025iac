@@ -26,9 +26,9 @@ provider "aws" {
 
 resource "aws_security_group" "web_sg" {
 
-  name        = "web-sg"
-  description = "Allow SSH and Port 80  inbound, all outbound"
-  vpc_id      = "vpc-0cda215927b58205a"
+ name        = "${var.project_name}-web-sg"
+  description = "Security group for web server allowing SSH and HTTP"
+  vpc_id      = aws_vpc.main.id
 
 
   # inbound SSH
@@ -50,6 +50,14 @@ resource "aws_security_group" "web_sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
+# Inbound HTTPS 443 (web)
+  ingress {
+    description = "HTTPS from anywhere"
+    from_port   = 443
+    to_port     = 443
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
   # Allow all outbound traffic
   egress {
     from_port   = 0
@@ -59,9 +67,25 @@ resource "aws_security_group" "web_sg" {
   }
 
   tags = {
-    Name = "web-security_group"
+    Name = "${var.project_name}-web-security_group"
+    Environment = var.environment
   }
 
+}
+# Data source to get latest Amazon_Linux AMI
+data "aws_ami" "amazon_linux" {
+  most_recent = true
+  owners      = ["076806502192"]
+
+  filter {
+    name   = "name"
+    values = ["al2023-ami-*-x86_64"]
+  }
+
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
 }
 
 #-------------------------
@@ -70,11 +94,11 @@ resource "aws_security_group" "web_sg" {
 
 
 resource "aws_instance" "web-node" {
-  ami                    = "ami-00a80d06c74068e6e"
-  instance_type          = "c7i-flex.large"
-  subnet_id              = "subnet-05321b19c9d5946ea"
+  ami                    = data.aws_ami.amazon_linux.id
+  instance_type          = var.instance_type
+  subnet_id              = aws_subnet.public.id
   vpc_security_group_ids = [aws_security_group.web_sg.id]
-  key_name               = "ohio123"
+  key_name               = var.key_name
 
   tags = {
     Name = "terraform-web-node"
@@ -87,10 +111,9 @@ resource "aws_instance" "web-node" {
 
 resource "aws_security_group" "java_sg" {
 
-  name        = "java-sg"
-  description = "Allow SSH and Port 9090  inbound, all outbound"
-  vpc_id      = "vpc-0cda215927b58205a"
-
+   name        = "${var.project_name}-java-sg"
+  description = "Security group for web server allowing SSH and HTTP"
+  vpc_id      = aws_vpc.main.id
 
   # inbound SSH
 
@@ -120,7 +143,8 @@ resource "aws_security_group" "java_sg" {
   }
 
   tags = {
-    Name = "java-app-security_group"
+     Name = "${var.project_name}-java-security_group"
+    Environment = var.environment
   }
 
 }
@@ -130,26 +154,25 @@ resource "aws_security_group" "java_sg" {
 # ------------------------
 
 resource "aws_instance" "java-node" {
-  ami                    = "ami-03a57b1c6c3095f0f"
-  instance_type          = "c7i-flex.large"
-  subnet_id              = "subnet-05321b19c9d5946ea"
+   ami                    = data.aws_ami.amazon_linux.id
+  instance_type          = var.instance_type
+  subnet_id              = aws_subnet.public.id
   vpc_security_group_ids = [aws_security_group.java_sg.id]
-  key_name               = "ohio123"
+  key_name               = var.key_name
 
   tags = {
     Name = "terraform-java-node"
   }
 }
-
 # -------------------------
 # Python Node Security Group
 # -------------------------
 
 resource "aws_security_group" "python_sg" {
 
-  name        = "python-sg"
-  description = "Allow SSH and Port 8080  inbound, all outbound"
-  vpc_id      = "vpc-0cda215927b58205a"
+  name        = "${var.project_name}-python-sg"
+  description = "Security group for web server allowing SSH and HTTP"
+  vpc_id      = aws_vpc.main.id
 
 
   # inbound SSH
@@ -162,11 +185,11 @@ resource "aws_security_group" "python_sg" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
-  # inbound 80 (web)
+  # inbound 8000 (python)
   ingress {
-    description = "Python app port 8080"
-    from_port   = 8080
-    to_port     = 8080
+    description = "Python app port 8000"
+    from_port   = 8000
+    to_port     = 8000
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
@@ -180,7 +203,8 @@ resource "aws_security_group" "python_sg" {
   }
 
   tags = {
-    Name = "python-app-security_group"
+     Name = "${var.project_name}-python-security_group"
+    Environment = var.environment
   }
 
 }
@@ -190,11 +214,11 @@ resource "aws_security_group" "python_sg" {
 # ------------------------
 
 resource "aws_instance" "python-node" {
-  ami                    = "ami-0204ab31d30768539"
-  instance_type          = "c7i-flex.large"
-  subnet_id              = "subnet-05321b19c9d5946ea"
+  ami                    = data.aws_ami.amazon_linux.id
+  instance_type          = var.instance_type
+  subnet_id              = aws_subnet.public.id
   vpc_security_group_ids = [aws_security_group.python_sg.id]
-  key_name               = "ohio123"
+  key_name               = var.key_name
 
   tags = {
     Name = "terraform-python-node"
